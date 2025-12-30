@@ -52,5 +52,6 @@ public class OffHoursPushDetector implements AnomalyDetector<PushEvent> {
         }
 
         return Optional.empty();
+        
     }
 }
