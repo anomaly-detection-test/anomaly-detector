@@ -8,9 +8,17 @@ import java.time.OffsetDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PushEvent extends Event {
     private String ref;
-    //TODO: get the time of the push event
+
     @JsonProperty("pushed_at")
     private OffsetDateTime pushedAt;
+
+    public OffsetDateTime getPushedAt() {
+        return pushedAt;
+    }
+
+    public void setPushedAt(OffsetDateTime pushedAt) {
+        this.pushedAt = pushedAt;
+    }
 
     public PushEvent() {
     }

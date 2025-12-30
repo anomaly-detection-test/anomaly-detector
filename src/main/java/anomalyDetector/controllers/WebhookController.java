@@ -2,11 +2,13 @@ package anomalyDetector.controllers;
 
 import anomalyDetector.events.Event;
 import anomalyDetector.parsers.EventParser;
-import anomalyDetector.services.EventService;
+import anomalyDetector.services.AnomalyDetectionService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.Instant;
 
 @RestController
 public class WebhookController {
@@ -14,11 +16,11 @@ public class WebhookController {
     private static final String EVENT_TYPE_HEADER = "X-GitHub-Event";
 
     private final EventParser eventParser;
-    private final EventService eventService;
+    private final AnomalyDetectionService anomalyDetectionService;
 
-    public WebhookController(EventParser eventParser, EventService eventService) {
+    public WebhookController(EventParser eventParser, AnomalyDetectionService anomalyDetectionService) {
         this.eventParser = eventParser;
-        this.eventService = eventService;
+        this.anomalyDetectionService = anomalyDetectionService;
     }
 
     @PostMapping
@@ -27,8 +29,9 @@ public class WebhookController {
             @RequestBody String payload
     ) {
         try {
-            Event event = eventParser.parse(eventType, payload);
-            eventService.handleEvent(event);
+            Instant eventCreatedTime = Instant.now();
+            Event event = eventParser.parse(eventType, payload, eventCreatedTime);
+            anomalyDetectionService.handleEvent(event);
         } catch (Exception e) {
             //TODO: log the error and throw appropriate HTTP response
         }
