@@ -1,3 +1,18 @@
 server:
   port: 8080
   address: 0.0.0.0
+
+#OffHoursPushDetector
+offHours:
+  start:
+    hour: 14
+    minute: 0
+  end:
+    hour: 16
+    minute: 0
+
+# RapidRepoLifecycleDetector
+repositoryMinLifetimeMinutes: 10
+
+# InvalidTeamNameDetector
+invalidTeamNamePrefix: hacker
