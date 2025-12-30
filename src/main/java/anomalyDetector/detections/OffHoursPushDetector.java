@@ -28,6 +28,7 @@ public class OffHoursPushDetector implements AnomalyDetector<PushEvent> {
             return Optional.of(new Alert("Push between 14:00–16:00", PUSH));
         }
 
+        
         return Optional.empty();
     }
 }
