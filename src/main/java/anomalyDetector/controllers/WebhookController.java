@@ -8,10 +8,7 @@ import anomalyDetector.services.AnomalyDetectionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 
@@ -21,6 +18,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @AllArgsConstructor
 @Slf4j
 @RestController
+@RequestMapping("/webhook")
 public class WebhookController {
     //TODO:  add webhook secret validation
     private static final String EVENT_TYPE_HEADER = "X-GitHub-Event";

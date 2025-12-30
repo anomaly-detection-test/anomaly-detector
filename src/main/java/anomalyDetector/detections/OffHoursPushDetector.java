@@ -14,16 +14,16 @@ import static anomalyDetector.events.EventType.PUSH;
 
 @Component
 public class OffHoursPushDetector implements AnomalyDetector<PushEvent> {
-    @Value("${offHoursPush.startHour}")
+    @Value("${offhours.start.hour}")
     private int startHour;
 
-    @Value("${offHoursPush.startMinute}")
+    @Value("${offhours.start.minute}")
     private int startMinute;
 
-    @Value("${offHoursPush.endHour}")
+    @Value("${offhours.end.hour}")
     private int endHour;
 
-    @Value("${offHoursPush.endMinute}")
+    @Value("${offhours.end.minute}")
     private int endMinute;
 
     LocalTime START = LocalTime.of(startHour, startMinute);
