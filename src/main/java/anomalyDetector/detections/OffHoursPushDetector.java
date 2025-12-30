@@ -6,6 +6,7 @@ import anomalyDetector.models.Alert;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 import static anomalyDetector.events.EventType.PUSH;
@@ -22,13 +23,15 @@ public class OffHoursPushDetector implements AnomalyDetector<PushEvent> {
 
     @Override
     public Optional<Alert> detect(PushEvent event) {
-        LocalTime pushTime = event.getPushedAt().toLocalTime();
+        LocalTime pushTime = event.getRepository().getPushedAt()
+                .atZoneSameInstant(ZoneId.systemDefault())
+                .toLocalTime();
 
         if (!pushTime.isBefore(START) && !pushTime.isAfter(END)) {
             return Optional.of(new Alert("Push between 14:00–16:00", PUSH));
         }
 
-        
+
         return Optional.empty();
     }
 }

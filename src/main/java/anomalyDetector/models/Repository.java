@@ -12,6 +12,8 @@ public class Repository {
     private String name;
     @JsonProperty("created_at")
     private Instant createdAt;
+    @JsonProperty("pushed_at")
+    private OffsetDateTime pushedAt;
 
     public Repository() {
     }
@@ -30,6 +32,14 @@ public class Repository {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public OffsetDateTime getPushedAt() {
+        return pushedAt;
+    }
+
+    public void setPushedAt(OffsetDateTime pushedAt) {
+        this.pushedAt = pushedAt;
     }
 
     public void setCreatedAt(Instant createdAt) {
