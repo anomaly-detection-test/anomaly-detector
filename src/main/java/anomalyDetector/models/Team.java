@@ -1,28 +1,19 @@
 package anomalyDetector.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Team {
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
-
-    public Team() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

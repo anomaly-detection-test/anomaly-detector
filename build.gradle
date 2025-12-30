@@ -8,16 +8,12 @@ dependencies {
     // Spring Boot starters
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-mustache'
-    implementation("org.springframework.boot:spring-boot-starter-validation")
 
-    // Database drivers
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'org.postgresql:postgresql:42.6.0'
-
-    // Devtools
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     // Tests
     testImplementation platform('org.junit:junit-bom:5.10.0')
@@ -31,6 +27,12 @@ test {
 
 repositories {
     mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 group = 'anomaly.detector'
