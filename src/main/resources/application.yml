@@ -5,10 +5,10 @@ server:
 #OffHoursPushDetector
 offHours:
   start:
-    hour: 14
+    hour: 0
     minute: 0
   end:
-    hour: 16
+    hour: 2
     minute: 0
 
 # RapidRepoLifecycleDetector

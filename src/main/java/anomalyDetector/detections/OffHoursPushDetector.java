@@ -3,6 +3,7 @@ package anomalyDetector.detections;
 import anomalyDetector.events.Event;
 import anomalyDetector.events.PushEvent;
 import anomalyDetector.models.Alert;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,9 @@ import static anomalyDetector.events.EventType.PUSH;
 
 @Component
 public class OffHoursPushDetector implements AnomalyDetector<PushEvent> {
+    private LocalTime START;
+    private LocalTime END;
+
     @Value("${offhours.start.hour}")
     private int startHour;
 
@@ -26,8 +30,11 @@ public class OffHoursPushDetector implements AnomalyDetector<PushEvent> {
     @Value("${offhours.end.minute}")
     private int endMinute;
 
-    LocalTime START = LocalTime.of(startHour, startMinute);
-    LocalTime END = LocalTime.of(endHour, endMinute);
+    @PostConstruct
+    public void init() {
+        START = LocalTime.of(startHour, startMinute);
+        END = LocalTime.of(endHour, endMinute);
+    }
 
     @Override
     public boolean supports(Event event) {
