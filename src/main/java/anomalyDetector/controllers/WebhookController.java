@@ -1,8 +1,13 @@
 package anomalyDetector.controllers;
 
 import anomalyDetector.events.Event;
+import anomalyDetector.exceptions.EventParsingException;
+import anomalyDetector.exceptions.UnsupportedEventException;
 import anomalyDetector.parsers.EventParser;
 import anomalyDetector.services.AnomalyDetectionService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -10,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
+@AllArgsConstructor
+@Slf4j
 @RestController
 public class WebhookController {
     //TODO:  add webhook secret validation
@@ -18,13 +28,8 @@ public class WebhookController {
     private final EventParser eventParser;
     private final AnomalyDetectionService anomalyDetectionService;
 
-    public WebhookController(EventParser eventParser, AnomalyDetectionService anomalyDetectionService) {
-        this.eventParser = eventParser;
-        this.anomalyDetectionService = anomalyDetectionService;
-    }
-
     @PostMapping
-    public void handleEvent(
+    public ResponseEntity<String> handleEvent(
             @RequestHeader(EVENT_TYPE_HEADER) String eventType,
             @RequestBody String payload
     ) {
@@ -32,8 +37,19 @@ public class WebhookController {
             Instant eventCreatedTime = Instant.now();
             Event event = eventParser.parse(eventType, payload, eventCreatedTime);
             anomalyDetectionService.handleEvent(event);
+
+            return ResponseEntity.ok("OK");
+        } catch (UnsupportedEventException e) {
+            log.warn("Unsupported event type: {}", eventType);
+            return ResponseEntity.status(BAD_REQUEST).body("Unsupported event type: " + eventType);
+
+        } catch (EventParsingException e) {
+            log.warn("Error parsing event {}: {}", eventType, e.getMessage());
+            return ResponseEntity.status(BAD_REQUEST).body("Error parsing event: " + e.getMessage());
+
         } catch (Exception e) {
-            //TODO: log the error and throw appropriate HTTP response
+            log.error("Unexpected error handling webhook event {}: {}", eventType, e.getMessage(), e);
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body("Internal server error");
         }
     }
 }
