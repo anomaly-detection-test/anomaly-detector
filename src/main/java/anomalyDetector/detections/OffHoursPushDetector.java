@@ -13,8 +13,8 @@ import static anomalyDetector.events.EventType.PUSH;
 
 @Component
 public class OffHoursPushDetector implements AnomalyDetector<PushEvent> {
-    private static final LocalTime START = LocalTime.of(17, 0);
-    private static final LocalTime END = LocalTime.of(18, 0);
+    private static final LocalTime START = LocalTime.of(14, 0);
+    private static final LocalTime END = LocalTime.of(16, 0);
 
     @Override
     public boolean supports(Event event) {
