@@ -8,6 +8,7 @@ public class ConsoleNotifier implements Notifier {
     @Override
     public void notify(Alert alert) {
         System.out.println(alert);
+        
     }
 }
 
