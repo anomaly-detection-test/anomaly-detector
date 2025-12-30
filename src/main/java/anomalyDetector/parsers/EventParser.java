@@ -6,6 +6,7 @@ import anomalyDetector.exceptions.EventParsingException;
 import anomalyDetector.exceptions.UnsupportedEventException;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -19,13 +20,13 @@ public class EventParser {
         this.parserMap = parsers.stream().collect(Collectors.toMap(Parsable::getSupportedType, Function.identity()));
     }
 
-    public Event parse(String eventType, String payload) throws UnsupportedEventException {
+    public Event parse(String eventType, String payload, Instant eventCreatedTime) throws UnsupportedEventException {
         Parsable parser = parserMap.get(EventType.fromString(eventType));
         if (parser == null) {
             throw new UnsupportedEventException(eventType);
         }
         try {
-            return parser.parse(payload);
+            return parser.parse(payload,eventCreatedTime);
         } catch (Exception e) {
             throw new EventParsingException(eventType, e);
         }

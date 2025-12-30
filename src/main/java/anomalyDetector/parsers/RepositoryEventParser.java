@@ -6,6 +6,8 @@ import anomalyDetector.events.RepositoryEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+
 import static anomalyDetector.events.EventType.REPOSITORY;
 
 @Component
@@ -18,9 +20,10 @@ public class RepositoryEventParser implements Parsable {
     }
 
     @Override
-    public Event parse(String payload) throws Exception {
+    public Event parse(String payload, Instant eventCreatedTime) throws Exception {
         RepositoryEvent event = objectMapper.readValue(payload, RepositoryEvent.class);
         event.setType(REPOSITORY);
+        event.setReceivedAt(eventCreatedTime);
         return event;
     }
 

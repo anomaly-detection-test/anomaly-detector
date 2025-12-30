@@ -1,13 +1,19 @@
 package anomalyDetector.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jdk.jfr.Timestamp;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.Instant;
+import java.time.OffsetDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Repository {
     private Long id;
     private String name;
-    private Timestamp createdAt;
+    @JsonProperty("created_at")
+    private Instant createdAt;
+    @JsonProperty("pushed_at")
+    private OffsetDateTime pushedAt;
 
     public Repository() {
     }
@@ -24,11 +30,19 @@ public class Repository {
         return name;
     }
 
-    public Timestamp getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public OffsetDateTime getPushedAt() {
+        return pushedAt;
+    }
+
+    public void setPushedAt(OffsetDateTime pushedAt) {
+        this.pushedAt = pushedAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
