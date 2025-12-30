@@ -1,7 +1,7 @@
 # Anomaly Detector
 
 ## Overview
-A Java 21 + Spring Boot application for detecting anomalies from GitHub Webhook events.
+A Java Spring Boot application for detecting anomalies from GitHub Webhook events.
 
 ## Run The Application
 
@@ -30,3 +30,15 @@ Make sure to append /webhook to the URL, for example
 
 Your application should now receive GitHub events and detect anomalies.
 
+### Optional:
+**Using the Provided Docker Image**
+
+Instead of building the image yourself, you can use the included anomaly-detector.tar file. <br />
+Load it into Docker with:
+```bash
+docker load -i anomaly-detector.tar
+```
+Then run the container as usual:
+```bash
+docker run -p 8080:8080 anomaly-detector:latest
+```
